@@ -6,7 +6,6 @@
 //refer to existing APIM
 targetScope = 'resourceGroup'
 
-
 //required parameters
 param apimInstanceName string // need to be provided since it is existing
 param apimRG string //resource group of existing APIM instance
