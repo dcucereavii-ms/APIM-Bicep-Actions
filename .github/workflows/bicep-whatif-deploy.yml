@@ -46,7 +46,7 @@ jobs:
       uses: Azure/cli@v1
       with:
         inlineScript: |
-          az deployment group validate --resource-group apim-demo --template-file main.bicep --name validate-${{ github.run_id }} --location $LOCATION
+          az deployment group validate --resource-group apim-demo --template-file main.bicep --name validate-${{ github.run_id }}
           # az deployment group validate --resource-group apim-demo \
           #   --name validate-${{ github.run_id }} \
           #   --template-file main.bicep \
