@@ -105,10 +105,10 @@ jobs:
   bicep-deploy:
     name: 'Bicep Deploy'
     #TODO can we easily determine if there are any changes to deploy?
-    if: github.ref == 'refs/heads/main' 
+    if: github.ref == 'refs/heads/master' 
     runs-on: ubuntu-latest
     environment: production
-    needs: [bicep-whatif]
+    #needs: [bicep-whatif]
     
     steps:
     # Checkout the repository to the GitHub Actions runner
