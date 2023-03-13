@@ -130,8 +130,10 @@ jobs:
       uses: Azure/cli@v1
       with:
         inlineScript: |
-          az deployment group create --resource-group apim-demo \
-            --name deploy-${{ github.run_id }} \
-            --template-file main.bicep \
-            --location $LOCATION 
+          az deployment group create --resource-group apim-demo --template-file main.bicep --parameters parameters.json
+          # az deployment group create --resource-group apim-demo \
+          #   --name deploy-${{ github.run_id }} \
+          #   --template-file main.bicep \
+          #   --location $LOCATION 
+
             
