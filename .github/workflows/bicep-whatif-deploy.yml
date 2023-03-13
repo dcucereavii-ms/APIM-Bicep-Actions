@@ -62,45 +62,45 @@ jobs:
     #         --location $LOCATION > whatif
             
       # Create string output of Whatif
-    - name: Create String Output
-      id: whatif-string
-      run: |
-        WHATIF=$(cat whatif)
+    # - name: Create String Output
+    #   id: whatif-string
+    #   run: |
+    #     WHATIF=$(cat whatif)
         
-        delimiter="$(openssl rand -hex 8)"
-        echo "summary<<${delimiter}" >> $GITHUB_OUTPUT
-        echo "## Whatif Output" >> $GITHUB_OUTPUT
-        echo "<details><summary>Click to expand</summary>" >> $GITHUB_OUTPUT
-        echo "" >> $GITHUB_OUTPUT
-        echo '```' >> $GITHUB_OUTPUT
-        echo "$WHATIF" >> $GITHUB_OUTPUT
-        echo '```' >> $GITHUB_OUTPUT
-        echo "</details>" >> $GITHUB_OUTPUT
-        echo "${delimiter}" >> $GITHUB_OUTPUT
+    #     delimiter="$(openssl rand -hex 8)"
+    #     echo "summary<<${delimiter}" >> $GITHUB_OUTPUT
+    #     echo "## Whatif Output" >> $GITHUB_OUTPUT
+    #     echo "<details><summary>Click to expand</summary>" >> $GITHUB_OUTPUT
+    #     echo "" >> $GITHUB_OUTPUT
+    #     echo '```' >> $GITHUB_OUTPUT
+    #     echo "$WHATIF" >> $GITHUB_OUTPUT
+    #     echo '```' >> $GITHUB_OUTPUT
+    #     echo "</details>" >> $GITHUB_OUTPUT
+    #     echo "${delimiter}" >> $GITHUB_OUTPUT
 
-    # Publish Terraform Plan as task summary
-    - name: Publish Whatif to Task Summary
-      env:
-        SUMMARY: ${{ steps.whatif-string.outputs.summary }}
-      run: |
-        echo "$SUMMARY" >> $GITHUB_STEP_SUMMARY
+    # # Publish Terraform Plan as task summary
+    # - name: Publish Whatif to Task Summary
+    #   env:
+    #     SUMMARY: ${{ steps.whatif-string.outputs.summary }}
+    #   run: |
+    #     echo "$SUMMARY" >> $GITHUB_STEP_SUMMARY
       
-    # If this is a PR post the changes
-    - name: Push Whatif Output to PR
-      if: github.ref != 'refs/heads/main'
-      uses: actions/github-script@v6
-      env:
-        SUMMARY: "${{ steps.whatif-string.outputs.summary }}"
-      with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const body = `${process.env.SUMMARY}`;
-            github.rest.issues.createComment({
-                issue_number: context.issue.number,
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                body: body
-            })
+    # # If this is a PR post the changes
+    # - name: Push Whatif Output to PR
+    #   if: github.ref != 'refs/heads/main'
+    #   uses: actions/github-script@v6
+    #   env:
+    #     SUMMARY: "${{ steps.whatif-string.outputs.summary }}"
+    #   with:
+    #       github-token: ${{ secrets.GITHUB_TOKEN }}
+    #       script: |
+    #         const body = `${process.env.SUMMARY}`;
+    #         github.rest.issues.createComment({
+    #             issue_number: context.issue.number,
+    #             owner: context.repo.owner,
+    #             repo: context.repo.repo,
+    #             body: body
+    #         })
             
   bicep-deploy:
     name: 'Bicep Deploy'
